@@ -1,0 +1,248 @@
+<html>
+
+<head>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js">
+  </script>
+</head>
+
+<body>
+  <canvas id="canvas" style=""></canvas>
+  <script>
+
+    var init_size = true;
+    window.addEventListener('resize', resizeCanvas, false);
+    function resizeCanvas() {
+      //console.log("border size:");
+      canvas.width = window.innerWidth;
+      //console.log(canvas.width);
+      canvas.height = window.innerHeight;
+      //console.log(canvas.height);
+      if (init_size) {
+        init_size = false;
+        return;
+      }
+      for (var i = 0; i < agents.length; i++) {
+        agents[i].canvas_resize();
+      }
+    }
+
+    // resizeCanvas();
+
+    var context = canvas.getContext('2d');
+    var img;
+    var bkImg = null;
+    //current position
+    var x = 10;
+    var y = 10;
+    //next position
+    var x_dest = 0;
+    var y_dest = 0;
+    //img.src = "imgs/0.png"
+    var lastAnimationTime = new Date().getTime();
+    var timeDelta = 35;  //changes animation speed, higher = slower
+    var dataReady = false;
+    var animationLoop = [];
+    var loopI = 0;
+    var direction;
+    var status = "idle";
+    var timer = 0;
+
+    function Idle(animationLoop) {
+            //idle animation
+            //for setInterval, but it doesn't like me using img.src
+            loopI++;
+            if (loopI > 20) {
+              loopI = 0;
+            }
+            //maybe a timer for how often it does it
+            img.src = animationLoop[loopI];
+            //console.log("idle hit");
+                  context.drawImage(img, x, y, 134, 142);
+                  //break;
+    }
+
+    function draw() {
+      //console.log("border size:");
+      //console.log(canvas.width);
+      //console.log(canvas.height);
+      window.requestAnimationFrame(draw);
+      //console.log("Drawing");
+      timer++;
+
+      if (dataReady == false) {
+        //console.log("Loading..");
+        return;
+      }
+
+      if (timeDelta + lastAnimationTime > new Date().getTime()) {
+         //console.log("timedelta return");
+         return;
+      }
+      lastAnimationTime = new Date().getTime();
+      if (bkImg != null) {
+        context.putImageData(bkImg, x, y);
+      }
+
+      //leftclick equals move
+      $(document).on("mousedown", function () {
+        status = "moving";
+        //get coordinates of mouse
+        //since you can't click off of the page, the only thing I need to do is make sure the image isn't cut off
+        //just adjusting the coordinates if they are too far over
+        x_dest = event.pageX;
+        if(x_dest > canvas.width - 100){
+          x_dest = canvas.width - 160;
+        }
+        y_dest = event.pageY;
+        if(y_dest > canvas.height - 100){
+          y_dest = canvas.height - 160;
+        }
+        console.log(x_dest);
+        console.log(y_dest);
+      });
+
+
+
+      var img = new Image();
+      img.src = "imgs/Idle (0).png";
+
+      //console.log("draw image test b4 hit");
+      //this.context.drawImage(img, this.curX, this.curY, this.imgWidth, this.imgHeight)
+
+      tempx = x;
+      tempy = y;
+      xdiff = Math.abs(tempx - x_dest);
+      ydiff = Math.abs(tempy - y_dest);
+
+      //repainting canvas
+      bkImg = context.getImageData(x, y, 134, 142);
+
+      //idle
+      //for idle I need to set loopi to 21, also I may need to move this but it maybe be fine here
+      if (x_dest == tempx && y_dest == tempy) {
+        // play idle animation
+        animationLoop = [spriteImgs['(Idle)']['Idle0'], spriteImgs['(Idle)']['Idle1'], spriteImgs['(Idle)']['Idle2'], spriteImgs['(Idle)']['Idle3'], spriteImgs['(Idle)']['Idle4'], spriteImgs['(Idle)']['Idle5'], spriteImgs['(Idle)']['Idle6'], spriteImgs['(Idle)']['Idle7'], spriteImgs['(Idle)']['Idle8'], spriteImgs['(Idle)']['Idle9'], spriteImgs['(Idle)']['Idle10'], spriteImgs['(Idle)']['Idle11'], spriteImgs['(Idle)']['Idle12'], spriteImgs['(Idle)']['Idle13'], spriteImgs['(Idle)']['Idle14'], spriteImgs['(Idle)']['Idle15'], spriteImgs['(Idle)']['Idle16'], spriteImgs['(Idle)']['Idle17'], spriteImgs['(Idle)']['Idle18'], spriteImgs['(Idle)']['Idle19'], spriteImgs['(Idle)']['Idle20'], spriteImgs['(Idle)']['Idle21']]
+        //Thought I'd give it a shot lol
+        //I'll try again after I've recharged :)
+      }
+
+      //movement
+      if (x_dest < tempx && y_dest < tempy) {
+        direction = "(NorthWest)";
+        animationLoop = [spriteImgs[direction]['walk1'], spriteImgs[direction]['walk2'], spriteImgs[direction]['walk3'], spriteImgs[direction]['walk4']];
+      }
+      if (x_dest < tempx && y_dest > tempy) {
+        direction = "(SouthWest)";
+        animationLoop = [spriteImgs[direction]['walk1'], spriteImgs[direction]['walk2'], spriteImgs[direction]['walk3'], spriteImgs[direction]['walk4']];
+      }
+      if (x_dest > tempx && y_dest < tempy) {
+        direction = "(NorthEast)";
+        animationLoop = [spriteImgs[direction]['walk1'], spriteImgs[direction]['walk2'], spriteImgs[direction]['walk3'], spriteImgs[direction]['walk4']];
+      }
+      if (x_dest > tempx && y_dest > tempy) {
+        direction = "(SouthEast)";
+        animationLoop = [spriteImgs[direction]['walk1'], spriteImgs[direction]['walk2'], spriteImgs[direction]['walk3'], spriteImgs[direction]['walk4']];
+      }
+      if (x_dest < tempx && y_dest == tempy) {
+        direction = "(West)";
+        animationLoop = [spriteImgs[direction]['walk1'], spriteImgs[direction]['walk2'], spriteImgs[direction]['walk3'], spriteImgs[direction]['walk4']];
+      }
+      if (x_dest > tempx && y_dest == tempy) {
+        direction = "(East)";
+        animationLoop = [spriteImgs[direction]['walk1'], spriteImgs[direction]['walk2'], spriteImgs[direction]['walk3'], spriteImgs[direction]['walk4']];
+      }
+      if (x_dest == tempx && y_dest < tempy) {
+        direction = "(North)";
+        animationLoop = [spriteImgs[direction]['walk1'], spriteImgs[direction]['walk2'], spriteImgs[direction]['walk3'], spriteImgs[direction]['walk4']];
+      }
+      if (x_dest == tempx && y_dest > tempy) {
+        direction = "(South)";
+        animationLoop = [spriteImgs[direction]['walk1'], spriteImgs[direction]['walk2'], spriteImgs[direction]['walk3'], spriteImgs[direction]['walk4']];
+        animation_x = xdiff;
+        animation_y = ydiff + tempy;
+      }
+
+      // loopI++;
+      // if (loopI > 3) {
+      //   loopI = 0;
+      // }
+
+      img.src = animationLoop[loopI];
+      //console.log(animationLoop[loopI]);
+
+      x = tempx;
+      y = tempy;
+      while(xdiff + ydiff > 0){
+        loopI++;
+        //if (status == "moving" && loopI > 3
+          //loopI = 0;
+        //if (status == "idle" && loopI > 20
+          //loopI = 0
+        if (loopI > 3) {
+          loopI = 0;
+        }
+        if(xdiff != 0 && tempx > x_dest){
+          x--;
+          xdiff--;
+        }
+        if(xdiff !=0 && tempx < x_dest){
+          x++;
+          xdiff--;
+        }
+        if(ydiff != 0 && tempy > y_dest){
+          y--;
+          ydiff--;
+        }
+        if(ydiff != 0 && tempy < y_dest){
+          y++;
+          ydiff--;
+        }
+        //console.log("distance is now");
+        //console.log(xdiff);
+        //console.log(ydiff);
+        img.src = animationLoop[loopI];
+        console.log("hit");
+                context.drawImage(img, x, y, 134, 142);
+                break;
+      }
+      if (xdiff + ydiff <= 0){
+        status = "idle";
+      }
+      while (status == "idle"){
+          //setInterval(Idle(animationLoop), 30000);
+          //not working :( technically I have an idle, it just plays constantly lol
+            //idle animation
+            loopI++;
+            if (loopI > 20) {
+              loopI = 0;
+            }
+            img.src = animationLoop[loopI];
+            //console.log("idle hit");
+                  context.drawImage(img, x, y, 134, 142);
+                  break;
+      }
+    context.drawImage(img, x, y, 134, 142);
+    }
+
+    $(document).ready(function () {
+
+      resizeCanvas();
+      $.getJSON("spriteImgs.JSON", function (data) {
+        console.log("Loaded");
+        alert("Loaded");
+        dataReady = true;
+        spriteImgs = data;
+        console.log(spriteImgs);
+      });
+
+
+
+      draw();
+
+
+    });
+
+  </script>
+</body>
+
+</html>
