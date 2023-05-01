@@ -1,0 +1,116 @@
+{
+  "(North)" : {
+    "walk1" : "AnimationFrames/NorthW1.png",
+    "walk2" : "AnimationFrames/NorthW2.png",
+    "walk3" : "AnimationFrames/NorthW3.png",
+    "walk4" : "AnimationFrames/NorthW4.png"
+  }, "(East)" : {
+    "walk1" : "AnimationFrames/EastW1.png",
+    "walk2" : "AnimationFrames/EastW2.png",
+    "walk3" : "AnimationFrames/EastW3.png",
+    "walk4" : "AnimationFrames/EastW4.png"
+  }, "(South)" : {
+    "walk1" : "AnimationFrames/SouthW1.png",
+    "walk2" : "AnimationFrames/SouthW2.png",
+    "walk3" : "AnimationFrames/SouthW3.png",
+    "walk4" : "AnimationFrames/SouthW4.png"
+  }, "(West)" : {
+    "walk1" : "AnimationFrames/WestW1.png",
+    "walk2" : "AnimationFrames/WestW2.png",
+    "walk3" : "AnimationFrames/WestW3.png",
+    "walk4" : "AnimationFrames/WestW4.png"
+  }, "(NorthEast)" : {
+    "walk1" : "AnimationFrames/NeW1.png",
+    "walk2" : "AnimationFrames/NeW2.png",
+    "walk3" : "AnimationFrames/NeW3.png",
+    "walk4" : "AnimationFrames/NeW4.png"
+  }, "(NorthWest)" : {
+    "walk1" : "AnimationFrames/NwW1.png",
+    "walk2" : "AnimationFrames/NwW2.png",
+    "walk3" : "AnimationFrames/NwW3.png",
+    "walk4" : "AnimationFrames/NwW4.png"
+  }, "(SouthEast)" : {
+    "walk1" : "AnimationFrames/SeW1.png",
+    "walk2" : "AnimationFrames/SeW2.png",
+    "walk3" : "AnimationFrames/SeW3.png",
+    "walk4" : "AnimationFrames/SeW4.png"
+  }, "(SouthWest)" : {
+    "walk1" : "AnimationFrames/SwW1.png",
+    "walk2" : "AnimationFrames/SwW2.png",
+    "walk3" : "AnimationFrames/SwW3.png",
+    "walk4" : "AnimationFrames/SwW4.png"
+  }, "(Idle)" : {
+    "Idle0" : "AnimationFrames/Idle (0).png",
+    "Idle1" : "AnimationFrames/Idle (1).png",
+    "Idle2" : "AnimationFrames/Idle (2).png",
+    "Idle3" : "AnimationFrames/Idle (3).png",
+    "Idle4" : "AnimationFrames/Idle (4).png",
+    "Idle5" : "AnimationFrames/Idle (5).png",
+    "Idle6" : "AnimationFrames/Idle (6).png",
+    "Idle7" : "AnimationFrames/Idle (7).png",
+    "Idle8" : "AnimationFrames/Idle (8).png",
+    "Idle9" : "AnimationFrames/Idle (9).png",
+    "Idle10" : "AnimationFrames/Idle (10).png",
+    "Idle11" : "AnimationFrames/Idle (11).png",
+    "Idle12" : "AnimationFrames/Idle (12).png",
+    "Idle13" : "AnimationFrames/Idle (13).png",
+    "Idle14" : "AnimationFrames/Idle (14).png",
+    "Idle15" : "AnimationFrames/Idle (15).png",
+    "Idle16" : "AnimationFrames/Idle (16).png",
+    "Idle17" : "AnimationFrames/Idle (17).png",
+    "Idle18" : "AnimationFrames/Idle (18).png",
+    "Idle19" : "AnimationFrames/Idle (19).png",
+    "Idle20" : "AnimationFrames/Idle (20).png",
+    "Idle21" : "AnimationFrames/Idle (21).png"
+  }, "(PNorth)" : {
+    "walk1" : "AnimationFrames/PNorthW1.png",
+    "walk2" : "AnimationFrames/PNorthW2.png",
+    "walk3" : "AnimationFrames/PNorthW3.png",
+    "walk4" : "AnimationFrames/PNorthW4.png"
+  }, "(PEast)" : {
+    "walk1" : "AnimationFrames/PEastW1.png",
+    "walk2" : "AnimationFrames/PEastW2.png",
+    "walk3" : "AnimationFrames/PEastW3.png",
+    "walk4" : "AnimationFrames/PEastW4.png"
+  }, "(PSouth)" : {
+    "walk1" : "AnimationFrames/PSouthW1.png",
+    "walk2" : "AnimationFrames/PSouthW2.png",
+    "walk3" : "AnimationFrames/PSouthW3.png",
+    "walk4" : "AnimationFrames/PSouthW4.png"
+  }, "(PWest)" : {
+    "walk1" : "AnimationFrames/PWestW1.png",
+    "walk2" : "AnimationFrames/PWestW2.png",
+    "walk3" : "AnimationFrames/PWestW3.png",
+    "walk4" : "AnimationFrames/PWestW4.png"
+  }, "(PNorthEast)" : {
+    "walk1" : "AnimationFrames/PNeW1.png",
+    "walk2" : "AnimationFrames/PNeW2.png",
+    "walk3" : "AnimationFrames/PNeW3.png",
+    "walk4" : "AnimationFrames/PNeW4.png"
+  }, "(PNorthWest)" : {
+    "walk1" : "AnimationFrames/PNwW1.png",
+    "walk2" : "AnimationFrames/PNwW2.png",
+    "walk3" : "AnimationFrames/PNwW3.png",
+    "walk4" : "AnimationFrames/PNwW4.png"
+  }, "(PSouthEast)" : {
+    "walk1" : "AnimationFrames/PSeW1.png",
+    "walk2" : "AnimationFrames/PSeW2.png",
+    "walk3" : "AnimationFrames/PSeW3.png",
+    "walk4" : "AnimationFrames/PSeW4.png"
+  }, "(PSouthWest)" : {
+    "walk1" : "AnimationFrames/PSwW1.png",
+    "walk2" : "AnimationFrames/PSwW2.png",
+    "walk3" : "AnimationFrames/PSwW3.png",
+    "walk4" : "AnimationFrames/PSwW4.png"
+  }, "(PIdle)" : {
+    "Idle0" : "AnimationFrames/PIdle (0).png",
+    "Idle1" : "AnimationFrames/PIdle (1).png",
+    "Idle2" : "AnimationFrames/PIdle (2).png",
+    "Idle3" : "AnimationFrames/PIdle (3).png",
+    "Idle4" : "AnimationFrames/PIdle (4).png",
+    "Idle5" : "AnimationFrames/PIdle (5).png",
+    "Idle6" : "AnimationFrames/PIdle (6).png",
+    "Idle7" : "AnimationFrames/PIdle (7).png",
+    "Idle8" : "AnimationFrames/PIdle (8).png"
+  }
+}
