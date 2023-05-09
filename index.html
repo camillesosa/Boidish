@@ -6,8 +6,12 @@
 </head>
 
 <body>
-  <canvas id="canvas" style=""></canvas>
+  <canvas id="canvas" style="background-image: url('PumpkinAnimationFrames/background.png'); background-repeat: no-repeat; background-attachment: fixed; background-size: cover;"></canvas>
   <script>
+
+  //fills webpage no matter what
+  //id="canvas" style="background-image: url('PumpkinAnimationFrames/background.png'); background-repeat: no-repeat; background-attachment: fixed; background-size: cover;"
+  //smaller image = better quality, good when browser is not maximized (same as above minus cover)
 
     var init_size = true;
     window.addEventListener('resize', resizeCanvas, false);
@@ -31,7 +35,6 @@
     var context = canvas.getContext('2d');
     var img;
     var bkImg = null;
-    var background = "PumpkinAnimationFrames/background.png";
     //current position
     var x = 10;
     var y = 10;
@@ -47,12 +50,6 @@
     var direction;
     var status = "idle";
     var timer = 0;
-
-    window.onload = function() {
-      var c = document.getElementById("myCanvas");
-      var ctx = c.getContext("2d");
-      ctx.drawImage(background, 10, 10);
-    };
 
     function Idle(animationLoop) {
             //idle animation
