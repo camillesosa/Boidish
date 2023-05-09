@@ -39,7 +39,7 @@
     var y_dest = 0;
     //img.src = "imgs/0.png"
     var lastAnimationTime = new Date().getTime();
-    var timeDelta = 35;  //changes animation speed, higher = slower
+    var timeDelta = 55;  //changes animation speed, higher = slower
     var dataReady = false;
     var animationLoop = [];
     var loopI = 0;
@@ -122,7 +122,11 @@
       if (x_dest == tempx && y_dest == tempy) {
         // play idle animation
         //animationLoop = [spriteImgs['(Idle)']['Idle0'], spriteImgs['(Idle)']['Idle1'], spriteImgs['(Idle)']['Idle2'], spriteImgs['(Idle)']['Idle3'], spriteImgs['(Idle)']['Idle4'], spriteImgs['(Idle)']['Idle5'], spriteImgs['(Idle)']['Idle6'], spriteImgs['(Idle)']['Idle7'], spriteImgs['(Idle)']['Idle8'], spriteImgs['(Idle)']['Idle9'], spriteImgs['(Idle)']['Idle10'], spriteImgs['(Idle)']['Idle11'], spriteImgs['(Idle)']['Idle12'], spriteImgs['(Idle)']['Idle13'], spriteImgs['(Idle)']['Idle14'], spriteImgs['(Idle)']['Idle15'], spriteImgs['(Idle)']['Idle16'], spriteImgs['(Idle)']['Idle17'], spriteImgs['(Idle)']['Idle18'], spriteImgs['(Idle)']['Idle19'], spriteImgs['(Idle)']['Idle20'], spriteImgs['(Idle)']['Idle21']]
-        direction = "(West)";
+        if (direction == "(East)" | "(NorthEast)" | "(SouthEast)"){
+          direction = "(East)";
+        } else {
+          direction = "(West)";
+        }
         animationLoop = [spriteImgs[direction]['walk1'], spriteImgs[direction]['walk2'], spriteImgs[direction]['walk3'], spriteImgs[direction]['walk4']];
         //Thought I'd give it a shot lol
         //I'll try again after I've recharged :)
@@ -211,6 +215,7 @@
         status = "idle";
       }
       while (status == "idle"){
+          timeDelta = 80;
           //setInterval(Idle(animationLoop), 30000);
           //not working :( technically I have an idle, it just plays constantly lol
             //idle animation
