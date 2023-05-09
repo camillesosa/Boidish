@@ -31,6 +31,7 @@
     var context = canvas.getContext('2d');
     var img;
     var bkImg = null;
+    var background = "PumpkinAnimationFrames/background.png";
     //current position
     var x = 10;
     var y = 10;
@@ -46,6 +47,12 @@
     var direction;
     var status = "idle";
     var timer = 0;
+
+    window.onload = function() {
+      var c = document.getElementById("myCanvas");
+      var ctx = c.getContext("2d");
+      ctx.drawImage(background, 10, 10);
+    };
 
     function Idle(animationLoop) {
             //idle animation
@@ -127,6 +134,8 @@
         } else {
           direction = "(West)";
         }
+        //for testing pumpkin animation
+        direction = "(PSouth)";
         animationLoop = [spriteImgs[direction]['walk1'], spriteImgs[direction]['walk2'], spriteImgs[direction]['walk3'], spriteImgs[direction]['walk4']];
         //Thought I'd give it a shot lol
         //I'll try again after I've recharged :)
