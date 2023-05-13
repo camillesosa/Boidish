@@ -149,22 +149,42 @@
       bkImg = context.getImageData(player.x, player.y, 134, 142);
       P1bkImg = context.getImageData(mrP.x, mrP.y, 134, 142);
 
+
+
+    ////painting pumpkin
+      //if(mrP.status == "idle"){
+        direction = mrP.direction;
+        mrP.animationLoop = [spriteImgs[direction]['walk1'], spriteImgs[direction]['walk2'], spriteImgs[direction]['walk3'], spriteImgs[direction]['walk4']];
+      //}
+
+      var mrPimg = new Image();
+
+      mrP.loopI++;
+      if (mrP.loopI > 4) {
+        mrP.loopI = 0;
+      }
+      mrPimg.src = mrP.animationLoop[mrP.loopI];
+      context.drawImage(mrPimg, mrP.x, mrP.y, 134, 142);
+
+
+    //painting witch
+    //for following pumpkins, what I can do is use the same info/calculations from the witch to fill the animation loops
+    //and take the changing x/y values and alter them for the pumpkins
+    //this is where I can try to "boid up"; ensure that the pumpkins dont all follow the same way
+
       //idle
       //for idle I need to set loopi to 21, also I may need to move this but it maybe be fine here
       if (player.x_dest == tempx && player.y_dest == tempy) {
         // play idle animation
-        //animationLoop = [spriteImgs['(Idle)']['Idle0'], spriteImgs['(Idle)']['Idle1'], spriteImgs['(Idle)']['Idle2'], spriteImgs['(Idle)']['Idle3'], spriteImgs['(Idle)']['Idle4'], spriteImgs['(Idle)']['Idle5'], spriteImgs['(Idle)']['Idle6'], spriteImgs['(Idle)']['Idle7'], spriteImgs['(Idle)']['Idle8'], spriteImgs['(Idle)']['Idle9'], spriteImgs['(Idle)']['Idle10'], spriteImgs['(Idle)']['Idle11'], spriteImgs['(Idle)']['Idle12'], spriteImgs['(Idle)']['Idle13'], spriteImgs['(Idle)']['Idle14'], spriteImgs['(Idle)']['Idle15'], spriteImgs['(Idle)']['Idle16'], spriteImgs['(Idle)']['Idle17'], spriteImgs['(Idle)']['Idle18'], spriteImgs['(Idle)']['Idle19'], spriteImgs['(Idle)']['Idle20'], spriteImgs['(Idle)']['Idle21']]
         if (player.direction == "(East)" | "(NorthEast)" | "(SouthEast)"){
           player.direction = "(East)";
         } else {
           player.direction = "(West)";
         }
-        //for testing pumpkin animation
-        player.direction = "(PSouth)";
+        //for testing pumpkin animation LOL rn the witch turns into a pumpkin when idle
+        //player.direction = "(PSouth)";
         direction = player.direction;
         player.animationLoop = [spriteImgs[direction]['walk1'], spriteImgs[direction]['walk2'], spriteImgs[direction]['walk3'], spriteImgs[direction]['walk4']];
-        //Thought I'd give it a shot lol
-        //I'll try again after I've recharged :)
       }
 
       //movement
@@ -172,74 +192,104 @@
         player.direction = "(NorthWest)";
         direction = player.direction;
         player.animationLoop = [spriteImgs[direction]['walk1'], spriteImgs[direction]['walk2'], spriteImgs[direction]['walk3'], spriteImgs[direction]['walk4']];
+        if (mrP.status == "follow"){
+          mrP.direction = player.direction;
+        }
       }
       if (player.x_dest < tempx && player.y_dest > tempy) {
         player.direction = "(SouthWest)";
         direction = player.direction;
         player.animationLoop = [spriteImgs[direction]['walk1'], spriteImgs[direction]['walk2'], spriteImgs[direction]['walk3'], spriteImgs[direction]['walk4']];
+        if (mrP.status == "follow"){
+          mrP.direction = player.direction;
+        }
       }
       if (player.x_dest > tempx && player.y_dest < tempy) {
         player.direction = "(NorthEast)";
         direction = player.direction;
         player.animationLoop = [spriteImgs[direction]['walk1'], spriteImgs[direction]['walk2'], spriteImgs[direction]['walk3'], spriteImgs[direction]['walk4']];
+        if (mrP.status == "follow"){
+          mrP.direction = player.direction;
+        }
       }
       if (player.x_dest > tempx && player.y_dest > tempy) {
         player.direction = "(SouthEast)";
         direction = player.direction;
         player.animationLoop = [spriteImgs[direction]['walk1'], spriteImgs[direction]['walk2'], spriteImgs[direction]['walk3'], spriteImgs[direction]['walk4']];
+        if (mrP.status == "follow"){
+          mrP.direction = player.direction;
+        }
       }
       if (player.x_dest < tempx && player.y_dest == tempy) {
         player.direction = "(West)";
         direction = player.direction;
         player.animationLoop = [spriteImgs[direction]['walk1'], spriteImgs[direction]['walk2'], spriteImgs[direction]['walk3'], spriteImgs[direction]['walk4']];
+        if (mrP.status == "follow"){
+          mrP.direction = player.direction;
+        }
       }
       if (player.x_dest > tempx && player.y_dest == tempy) {
         player.direction = "(East)";
         direction = player.direction;
         player.animationLoop = [spriteImgs[direction]['walk1'], spriteImgs[direction]['walk2'], spriteImgs[direction]['walk3'], spriteImgs[direction]['walk4']];
+        if (mrP.status == "follow"){
+          mrP.direction = player.direction;
+        }
       }
       if (player.x_dest == tempx && player.y_dest < tempy) {
         player.direction = "(North)";
         direction = player.direction;
         player.animationLoop = [spriteImgs[direction]['walk1'], spriteImgs[direction]['walk2'], spriteImgs[direction]['walk3'], spriteImgs[direction]['walk4']];
+        if (mrP.status == "follow"){
+          mrP.direction = player.direction;
+        }
       }
       if (player.x_dest == tempx && player.y_dest > tempy) {
         player.direction = "(South)";
         direction = player.direction;
         player.animationLoop = [spriteImgs[direction]['walk1'], spriteImgs[direction]['walk2'], spriteImgs[direction]['walk3'], spriteImgs[direction]['walk4']];
-        animation_x = xdiff;
-        animation_y = ydiff + tempy;
+        if (mrP.status == "follow"){
+          mrP.direction = player.direction;
+        }
       }
 
 
       img.src = player.animationLoop[player.loopI];
-      //console.log(animationLoop[loopI]);
 
       player.x = tempx;
       player.y = tempy;
       while(xdiff + ydiff > 0){
         player.loopI++;
-        //if (status == "moving" && loopI > 3
-          //loopI = 0;
-        //if (status == "idle" && loopI > 20
-          //loopI = 0
+
         if (player.loopI > 3) {
           player.loopI = 0;
         }
         if(xdiff != 0 && tempx > player.x_dest){
           player.x--;
+          //if (mrP.status == "follow"){
+            //mrP.x = boidFunc(player.x) <- to adjust the value
+          //}
           xdiff--;
         }
         if(xdiff !=0 && tempx < player.x_dest){
           player.x++;
+          //if (mrP.status == "follow"){
+            //mrP.x = boidFunc(player.x) <- to adjust the value
+          //}
           xdiff--;
         }
         if(ydiff != 0 && tempy > player.y_dest){
           player.y--;
+          //if (mrP.status == "follow"){
+            //mrP.y = boidFunc(player.y) <- to adjust the value
+          //}
           ydiff--;
         }
         if(ydiff != 0 && tempy < player.y_dest){
           player.y++;
+          //if (mrP.status == "follow"){
+            //mrP.y = boidFunc(player.y) <- to adjust the value
+          //}
           ydiff--;
         }
         //console.log("distance is now");
@@ -255,7 +305,6 @@
       }
       while (player.status == "idle"){
           timeDelta = 80;
-          //maybe try to create an idle function again so i can call it regardless of the object/class
             //idle animation
             player.loopI++;
             if (player.loopI > 4) {
@@ -268,22 +317,6 @@
       }
     context.drawImage(img, player.x, player.y, 134, 142);
 
-    ////fill animation loop for pumpkins
-    if(mrP.status == "idle"){
-      direction = mrP.direction;
-      mrP.animationLoop = [spriteImgs[direction]['walk1'], spriteImgs[direction]['walk2'], spriteImgs[direction]['walk3'], spriteImgs[direction]['walk4']];
-    }
-
-    var mrPimg = new Image();
-
-    if (mrP.status == "idle"){
-      mrP.loopI++;
-      if (mrP.loopI > 4) {
-        mrP.loopI = 0;
-      }
-      mrPimg.src = mrP.animationLoop[mrP.loopI];
-      context.drawImage(mrPimg, mrP.x, mrP.y, 134, 142);
-    }
 
     }
 
