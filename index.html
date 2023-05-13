@@ -3,12 +3,14 @@
 <head>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js">
   </script>
+  <script src="boid.js"></script>
 </head>
 
 <body>
   <canvas id="canvas" style="background-image: url('PumpkinAnimationFrames/background.png'); background-repeat: no-repeat; background-attachment: fixed; background-size: cover;"></canvas>
   <script>
 
+  //FOR SOME REASON THIS DOESNT LIKE THE P5 LIBRARY
   //fills webpage no matter what
   //id="canvas" style="background-image: url('PumpkinAnimationFrames/background.png'); background-repeat: no-repeat; background-attachment: fixed; background-size: cover;"
   //smaller image = better quality, good when browser is not maximized (same as above minus cover)
@@ -35,13 +37,13 @@
     var context = canvas.getContext('2d');
     var img;
     var bkImg = null;
+    var P1bkImg = null;
     //current position
     var x = 10;
     var y = 10;
     //next position
     var x_dest = 0;
     var y_dest = 0;
-    //img.src = "imgs/0.png"
     var lastAnimationTime = new Date().getTime();
     var timeDelta = 55;  //changes animation speed, higher = slower
     var dataReady = false;
@@ -49,29 +51,43 @@
     var loopI = 0;
     var direction;
     var status = "idle";
-    var timer = 0;
 
-    function Idle(animationLoop) {
-            //idle animation
-            //for setInterval, but it doesn't like me using img.src
-            loopI++;
-            if (loopI > 20) {
-              loopI = 0;
-            }
-            //maybe a timer for how often it does it
-            img.src = animationLoop[loopI];
-            //console.log("idle hit");
-                  context.drawImage(img, x, y, 134, 142);
-                  //break;
+    class witch{
+      constructor(){
+        this.status = "idle";
+        this.x = 10;
+        this.y = 10;
+        //next position
+        this.x_dest = 0;
+        this.y_dest = 0;
+        this.animationLoop = [];
+        this.loopI = 0;
+        this.direction;
+      }
     }
 
+    class pumpkin{
+      constructor(x, y, direction){
+        this.x = x;
+        this.y = y;
+        this.direction = direction;
+        this.animationLoop = [];
+        this.loopI = 0;
+        this.status = "idle";
+        //interaction with player should cause pumpkin to follow player
+        //maybe implement boid-like following attributes?
+      }
+    }
+
+    //making objects/populating
+    var player = new witch();
+    var mrP = new pumpkin(60, 60, "(PSouth)");
+    var mrsP = new pumpkin(25, 35, "(PWest)");
+
+
+
     function draw() {
-      //console.log("border size:");
-      //console.log(canvas.width);
-      //console.log(canvas.height);
       window.requestAnimationFrame(draw);
-      //console.log("Drawing");
-      timer++;
 
       if (dataReady == false) {
         //console.log("Loading..");
@@ -84,25 +100,36 @@
       }
       lastAnimationTime = new Date().getTime();
       if (bkImg != null) {
-        context.putImageData(bkImg, x, y);
+        context.putImageData(bkImg, player.x, player.y);
+      }
+      if (P1bkImg != null) {
+        context.putImageData(P1bkImg, mrP.x, mrP.y);
       }
 
+
+
+      //                                    START WORK HERE
+      //MAKE PUMPKIN STATUS = IDLE
+      //MAKE STATUS = INTERATION STATE
+
+
+      //IF OBJECT == WITCH
       //leftclick equals move
       $(document).on("mousedown", function () {
-        status = "moving";
+        player.status = "moving";
         //get coordinates of mouse
         //since you can't click off of the page, the only thing I need to do is make sure the image isn't cut off
         //just adjusting the coordinates if they are too far over
-        x_dest = event.pageX;
-        if(x_dest > canvas.width - 100){
-          x_dest = canvas.width - 160;
+        player.x_dest = event.pageX;
+        if(player.x_dest > canvas.width - 100){
+          player.x_dest = canvas.width - 160;
         }
-        y_dest = event.pageY;
-        if(y_dest > canvas.height - 100){
-          y_dest = canvas.height - 160;
+        player.y_dest = event.pageY;
+        if(player.y_dest > canvas.height - 100){
+          player.y_dest = canvas.height - 160;
         }
-        console.log(x_dest);
-        console.log(y_dest);
+        console.log(player.x_dest);
+        console.log(player.y_dest);
       });
 
 
@@ -113,130 +140,156 @@
       //console.log("draw image test b4 hit");
       //this.context.drawImage(img, this.curX, this.curY, this.imgWidth, this.imgHeight)
 
-      tempx = x;
-      tempy = y;
-      xdiff = Math.abs(tempx - x_dest);
-      ydiff = Math.abs(tempy - y_dest);
+      tempx = player.x;
+      tempy = player.y;
+      xdiff = Math.abs(tempx - player.x_dest);
+      ydiff = Math.abs(tempy - player.y_dest);
 
       //repainting canvas
-      bkImg = context.getImageData(x, y, 134, 142);
+      bkImg = context.getImageData(player.x, player.y, 134, 142);
+      P1bkImg = context.getImageData(mrP.x, mrP.y, 134, 142);
 
       //idle
       //for idle I need to set loopi to 21, also I may need to move this but it maybe be fine here
-      if (x_dest == tempx && y_dest == tempy) {
+      if (player.x_dest == tempx && player.y_dest == tempy) {
         // play idle animation
         //animationLoop = [spriteImgs['(Idle)']['Idle0'], spriteImgs['(Idle)']['Idle1'], spriteImgs['(Idle)']['Idle2'], spriteImgs['(Idle)']['Idle3'], spriteImgs['(Idle)']['Idle4'], spriteImgs['(Idle)']['Idle5'], spriteImgs['(Idle)']['Idle6'], spriteImgs['(Idle)']['Idle7'], spriteImgs['(Idle)']['Idle8'], spriteImgs['(Idle)']['Idle9'], spriteImgs['(Idle)']['Idle10'], spriteImgs['(Idle)']['Idle11'], spriteImgs['(Idle)']['Idle12'], spriteImgs['(Idle)']['Idle13'], spriteImgs['(Idle)']['Idle14'], spriteImgs['(Idle)']['Idle15'], spriteImgs['(Idle)']['Idle16'], spriteImgs['(Idle)']['Idle17'], spriteImgs['(Idle)']['Idle18'], spriteImgs['(Idle)']['Idle19'], spriteImgs['(Idle)']['Idle20'], spriteImgs['(Idle)']['Idle21']]
-        if (direction == "(East)" | "(NorthEast)" | "(SouthEast)"){
-          direction = "(East)";
+        if (player.direction == "(East)" | "(NorthEast)" | "(SouthEast)"){
+          player.direction = "(East)";
         } else {
-          direction = "(West)";
+          player.direction = "(West)";
         }
         //for testing pumpkin animation
-        direction = "(PSouth)";
-        animationLoop = [spriteImgs[direction]['walk1'], spriteImgs[direction]['walk2'], spriteImgs[direction]['walk3'], spriteImgs[direction]['walk4']];
+        player.direction = "(PSouth)";
+        direction = player.direction;
+        player.animationLoop = [spriteImgs[direction]['walk1'], spriteImgs[direction]['walk2'], spriteImgs[direction]['walk3'], spriteImgs[direction]['walk4']];
         //Thought I'd give it a shot lol
         //I'll try again after I've recharged :)
       }
 
       //movement
-      if (x_dest < tempx && y_dest < tempy) {
-        direction = "(NorthWest)";
-        animationLoop = [spriteImgs[direction]['walk1'], spriteImgs[direction]['walk2'], spriteImgs[direction]['walk3'], spriteImgs[direction]['walk4']];
+      if (player.x_dest < tempx && player.y_dest < tempy) {
+        player.direction = "(NorthWest)";
+        direction = player.direction;
+        player.animationLoop = [spriteImgs[direction]['walk1'], spriteImgs[direction]['walk2'], spriteImgs[direction]['walk3'], spriteImgs[direction]['walk4']];
       }
-      if (x_dest < tempx && y_dest > tempy) {
-        direction = "(SouthWest)";
-        animationLoop = [spriteImgs[direction]['walk1'], spriteImgs[direction]['walk2'], spriteImgs[direction]['walk3'], spriteImgs[direction]['walk4']];
+      if (player.x_dest < tempx && player.y_dest > tempy) {
+        player.direction = "(SouthWest)";
+        direction = player.direction;
+        player.animationLoop = [spriteImgs[direction]['walk1'], spriteImgs[direction]['walk2'], spriteImgs[direction]['walk3'], spriteImgs[direction]['walk4']];
       }
-      if (x_dest > tempx && y_dest < tempy) {
-        direction = "(NorthEast)";
-        animationLoop = [spriteImgs[direction]['walk1'], spriteImgs[direction]['walk2'], spriteImgs[direction]['walk3'], spriteImgs[direction]['walk4']];
+      if (player.x_dest > tempx && player.y_dest < tempy) {
+        player.direction = "(NorthEast)";
+        direction = player.direction;
+        player.animationLoop = [spriteImgs[direction]['walk1'], spriteImgs[direction]['walk2'], spriteImgs[direction]['walk3'], spriteImgs[direction]['walk4']];
       }
-      if (x_dest > tempx && y_dest > tempy) {
-        direction = "(SouthEast)";
-        animationLoop = [spriteImgs[direction]['walk1'], spriteImgs[direction]['walk2'], spriteImgs[direction]['walk3'], spriteImgs[direction]['walk4']];
+      if (player.x_dest > tempx && player.y_dest > tempy) {
+        player.direction = "(SouthEast)";
+        direction = player.direction;
+        player.animationLoop = [spriteImgs[direction]['walk1'], spriteImgs[direction]['walk2'], spriteImgs[direction]['walk3'], spriteImgs[direction]['walk4']];
       }
-      if (x_dest < tempx && y_dest == tempy) {
-        direction = "(West)";
-        animationLoop = [spriteImgs[direction]['walk1'], spriteImgs[direction]['walk2'], spriteImgs[direction]['walk3'], spriteImgs[direction]['walk4']];
+      if (player.x_dest < tempx && player.y_dest == tempy) {
+        player.direction = "(West)";
+        direction = player.direction;
+        player.animationLoop = [spriteImgs[direction]['walk1'], spriteImgs[direction]['walk2'], spriteImgs[direction]['walk3'], spriteImgs[direction]['walk4']];
       }
-      if (x_dest > tempx && y_dest == tempy) {
-        direction = "(East)";
-        animationLoop = [spriteImgs[direction]['walk1'], spriteImgs[direction]['walk2'], spriteImgs[direction]['walk3'], spriteImgs[direction]['walk4']];
+      if (player.x_dest > tempx && player.y_dest == tempy) {
+        player.direction = "(East)";
+        direction = player.direction;
+        player.animationLoop = [spriteImgs[direction]['walk1'], spriteImgs[direction]['walk2'], spriteImgs[direction]['walk3'], spriteImgs[direction]['walk4']];
       }
-      if (x_dest == tempx && y_dest < tempy) {
-        direction = "(North)";
-        animationLoop = [spriteImgs[direction]['walk1'], spriteImgs[direction]['walk2'], spriteImgs[direction]['walk3'], spriteImgs[direction]['walk4']];
+      if (player.x_dest == tempx && player.y_dest < tempy) {
+        player.direction = "(North)";
+        direction = player.direction;
+        player.animationLoop = [spriteImgs[direction]['walk1'], spriteImgs[direction]['walk2'], spriteImgs[direction]['walk3'], spriteImgs[direction]['walk4']];
       }
-      if (x_dest == tempx && y_dest > tempy) {
-        direction = "(South)";
-        animationLoop = [spriteImgs[direction]['walk1'], spriteImgs[direction]['walk2'], spriteImgs[direction]['walk3'], spriteImgs[direction]['walk4']];
+      if (player.x_dest == tempx && player.y_dest > tempy) {
+        player.direction = "(South)";
+        direction = player.direction;
+        player.animationLoop = [spriteImgs[direction]['walk1'], spriteImgs[direction]['walk2'], spriteImgs[direction]['walk3'], spriteImgs[direction]['walk4']];
         animation_x = xdiff;
         animation_y = ydiff + tempy;
       }
 
-      // loopI++;
-      // if (loopI > 3) {
-      //   loopI = 0;
-      // }
 
-      img.src = animationLoop[loopI];
+      img.src = player.animationLoop[player.loopI];
       //console.log(animationLoop[loopI]);
 
-      x = tempx;
-      y = tempy;
+      player.x = tempx;
+      player.y = tempy;
       while(xdiff + ydiff > 0){
-        loopI++;
+        player.loopI++;
         //if (status == "moving" && loopI > 3
           //loopI = 0;
         //if (status == "idle" && loopI > 20
           //loopI = 0
-        if (loopI > 3) {
-          loopI = 0;
+        if (player.loopI > 3) {
+          player.loopI = 0;
         }
-        if(xdiff != 0 && tempx > x_dest){
-          x--;
+        if(xdiff != 0 && tempx > player.x_dest){
+          player.x--;
           xdiff--;
         }
-        if(xdiff !=0 && tempx < x_dest){
-          x++;
+        if(xdiff !=0 && tempx < player.x_dest){
+          player.x++;
           xdiff--;
         }
-        if(ydiff != 0 && tempy > y_dest){
-          y--;
+        if(ydiff != 0 && tempy > player.y_dest){
+          player.y--;
           ydiff--;
         }
-        if(ydiff != 0 && tempy < y_dest){
-          y++;
+        if(ydiff != 0 && tempy < player.y_dest){
+          player.y++;
           ydiff--;
         }
         //console.log("distance is now");
         //console.log(xdiff);
         //console.log(ydiff);
-        img.src = animationLoop[loopI];
+        img.src = player.animationLoop[player.loopI];
         console.log("hit");
-                context.drawImage(img, x, y, 134, 142);
+                context.drawImage(img, player.x, player.y, 134, 142);
                 break;
       }
       if (xdiff + ydiff <= 0){
-        status = "idle";
+        player.status = "idle";
       }
-      while (status == "idle"){
+      while (player.status == "idle"){
           timeDelta = 80;
-          //setInterval(Idle(animationLoop), 30000);
-          //not working :( technically I have an idle, it just plays constantly lol
+          //maybe try to create an idle function again so i can call it regardless of the object/class
             //idle animation
-            loopI++;
-            if (loopI > 4) {
-              loopI = 0;
+            player.loopI++;
+            if (player.loopI > 4) {
+              player.loopI = 0;
             }
-            img.src = animationLoop[loopI];
+            img.src = player.animationLoop[player.loopI];
             //console.log("idle hit");
-                  context.drawImage(img, x, y, 134, 142);
+                  context.drawImage(img, player.x, player.y, 134, 142);
                   break;
       }
-    context.drawImage(img, x, y, 134, 142);
+    context.drawImage(img, player.x, player.y, 134, 142);
+
+    ////fill animation loop for pumpkins
+    if(mrP.status == "idle"){
+      direction = mrP.direction;
+      mrP.animationLoop = [spriteImgs[direction]['walk1'], spriteImgs[direction]['walk2'], spriteImgs[direction]['walk3'], spriteImgs[direction]['walk4']];
     }
 
+    var mrPimg = new Image();
+
+    if (mrP.status == "idle"){
+      mrP.loopI++;
+      if (mrP.loopI > 4) {
+        mrP.loopI = 0;
+      }
+      mrPimg.src = mrP.animationLoop[mrP.loopI];
+      context.drawImage(mrPimg, mrP.x, mrP.y, 134, 142);
+    }
+
+    }
+
+
+
+    //end of draw
     $(document).ready(function () {
 
       resizeCanvas();
