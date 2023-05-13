@@ -38,6 +38,8 @@
     var img;
     var bkImg = null;
     var P1bkImg = null;
+    var P2bkImg = null;
+    var P3bkImg = null;
     //current position
     var x = 10;
     var y = 10;
@@ -80,7 +82,7 @@
     }
 
     function interaction(px, py, wx, wy){
-      if (Math.abs(px - wx) < 15 || Math.abs(py - wy) < 15){
+      if (Math.abs(px - wx) < 15 && Math.abs(py - wy) < 15){
         status = "follow";
       } else {
         status = "idle";
@@ -91,7 +93,8 @@
     //making objects/populating
     var player = new witch();
     var mrP = new pumpkin(60, 60, "(PSouth)");
-    var mrsP = new pumpkin(25, 35, "(PWest)");
+    var mrsP = new pumpkin(800, 300, "(PWest)");
+    var msP = new pumpkin(400, 500, "(PNorth)");
 
 
 
@@ -113,6 +116,12 @@
       }
       if (P1bkImg != null) {
         context.putImageData(P1bkImg, mrP.x, mrP.y);
+      }
+      if (P2bkImg != null) {
+        context.putImageData(P1bkImg, mrsP.x, mrsP.y);
+      }
+      if (P3bkImg != null) {
+        context.putImageData(P1bkImg, msP.x, msP.y);
       }
 
 
@@ -155,16 +164,24 @@
       //repainting canvas
       bkImg = context.getImageData(player.x, player.y, 134, 142);
       P1bkImg = context.getImageData(mrP.x, mrP.y, 134, 142);
+      P2bkImg = context.getImageData(mrsP.x, mrsP.y, 134, 142);
+      P3bkImg = context.getImageData(msP.x, msP.y, 134, 142);
 
 
+    ////painting pumpkins
 
-    ////painting pumpkin
-      //if(mrP.status == "idle"){
         direction = mrP.direction;
         mrP.animationLoop = [spriteImgs[direction]['walk1'], spriteImgs[direction]['walk2'], spriteImgs[direction]['walk3'], spriteImgs[direction]['walk4']];
-      //}
+
+        direction = mrsP.direction;
+        mrsP.animationLoop = [spriteImgs[direction]['walk1'], spriteImgs[direction]['walk2'], spriteImgs[direction]['walk3'], spriteImgs[direction]['walk4']];
+
+        direction = msP.direction;
+        msP.animationLoop = [spriteImgs[direction]['walk1'], spriteImgs[direction]['walk2'], spriteImgs[direction]['walk3'], spriteImgs[direction]['walk4']];
 
       var mrPimg = new Image();
+      var mrsPimg = new Image();
+      var msPimg = new Image();
 
       mrP.loopI++;
       if (mrP.loopI > 4) {
@@ -172,6 +189,20 @@
       }
       mrPimg.src = mrP.animationLoop[mrP.loopI];
       context.drawImage(mrPimg, mrP.x, mrP.y, 134, 142);
+
+      mrsP.loopI++;
+      if (mrsP.loopI > 4) {
+        mrsP.loopI = 0;
+      }
+      mrsPimg.src = mrsP.animationLoop[mrsP.loopI];
+      context.drawImage(mrsPimg, mrsP.x, mrsP.y, 134, 142);
+
+      msP.loopI++;
+      if (msP.loopI > 4) {
+        msP.loopI = 0;
+      }
+      msPimg.src = msP.animationLoop[msP.loopI];
+      context.drawImage(msPimg, msP.x, msP.y, 134, 142);
 
 
     //painting witch
@@ -202,6 +233,12 @@
         if (mrP.status == "follow"){
           mrP.direction = "(PNorthWest)";
         }
+        if (mrsP.status == "follow"){
+          mrsP.direction = "(PNorthWest)";
+        }
+        if (msP.status == "follow"){
+          msP.direction = "(PNorthWest)";
+        }
       }
       if (player.x_dest < tempx && player.y_dest > tempy) {
         player.direction = "(SouthWest)";
@@ -209,6 +246,12 @@
         player.animationLoop = [spriteImgs[direction]['walk1'], spriteImgs[direction]['walk2'], spriteImgs[direction]['walk3'], spriteImgs[direction]['walk4']];
         if (mrP.status == "follow"){
           mrP.direction = "(PSouthWest)";
+        }
+        if (mrsP.status == "follow"){
+          mrsP.direction = "(PSouthWest)";
+        }
+        if (msP.status == "follow"){
+          msP.direction = "(PSouthWest)";
         }
       }
       if (player.x_dest > tempx && player.y_dest < tempy) {
@@ -218,6 +261,12 @@
         if (mrP.status == "follow"){
           mrP.direction = "(PNorthEast)";
         }
+        if (mrsP.status == "follow"){
+          mrsP.direction = "(PNorthEast)";
+        }
+        if (msP.status == "follow"){
+          msP.direction = "(PNorthEast)";
+        }
       }
       if (player.x_dest > tempx && player.y_dest > tempy) {
         player.direction = "(SouthEast)";
@@ -225,6 +274,12 @@
         player.animationLoop = [spriteImgs[direction]['walk1'], spriteImgs[direction]['walk2'], spriteImgs[direction]['walk3'], spriteImgs[direction]['walk4']];
         if (mrP.status == "follow"){
           mrP.direction = "(PSouthEast)";
+        }
+        if (mrsP.status == "follow"){
+          mrsP.direction = "(PSouthEast)";
+        }
+        if (msP.status == "follow"){
+          msP.direction = "(PSouthEast)";
         }
       }
       if (player.x_dest < tempx && player.y_dest == tempy) {
@@ -234,6 +289,12 @@
         if (mrP.status == "follow"){
           mrP.direction = "(PWest)";
         }
+        if (mrsP.status == "follow"){
+          mrsP.direction = "(PWest)";
+        }
+        if (msP.status == "follow"){
+          msP.direction = "(PWest)";
+        }
       }
       if (player.x_dest > tempx && player.y_dest == tempy) {
         player.direction = "(East)";
@@ -241,6 +302,12 @@
         player.animationLoop = [spriteImgs[direction]['walk1'], spriteImgs[direction]['walk2'], spriteImgs[direction]['walk3'], spriteImgs[direction]['walk4']];
         if (mrP.status == "follow"){
           mrP.direction = "(PEast)";
+        }
+        if (mrsP.status == "follow"){
+          mrsP.direction = "(PEast)";
+        }
+        if (msP.status == "follow"){
+          msP.direction = "(PEast)";
         }
       }
       if (player.x_dest == tempx && player.y_dest < tempy) {
@@ -250,6 +317,12 @@
         if (mrP.status == "follow"){
           mrP.direction = "(PNorth)";
         }
+        if (mrsP.status == "follow"){
+          mrsP.direction = "(PNorth)";
+        }
+        if (msP.status == "follow"){
+          msP.direction = "(PNorth)";
+        }
       }
       if (player.x_dest == tempx && player.y_dest > tempy) {
         player.direction = "(South)";
@@ -257,6 +330,12 @@
         player.animationLoop = [spriteImgs[direction]['walk1'], spriteImgs[direction]['walk2'], spriteImgs[direction]['walk3'], spriteImgs[direction]['walk4']];
         if (mrP.status == "follow"){
           mrP.direction = "(PSouth)";
+        }
+        if (mrsP.status == "follow"){
+          mrsP.direction = "(PSouth)";
+        }
+        if (msP.status == "follow"){
+          msP.direction = "(PSouth)";
         }
       }
 
@@ -277,6 +356,14 @@
             //mrP.x = boidFunc(player.x) <- to adjust the value
             mrP.x--;
           }
+          if (mrsP.status == "follow"){
+            //mrsP.x = boidFunc(player.x) <- to adjust the value
+            mrsP.x--;
+          }
+          if (msP.status == "follow"){
+            //msP.x = boidFunc(player.x) <- to adjust the value
+            msP.x--;
+          }
           xdiff--;
         }
         if(xdiff !=0 && tempx < player.x_dest){
@@ -284,6 +371,14 @@
           if (mrP.status == "follow"){
             //mrP.x = boidFunc(player.x) <- to adjust the value
             mrP.x++;
+          }
+          if (mrsP.status == "follow"){
+            //mrsP.x = boidFunc(player.x) <- to adjust the value
+            mrsP.x++;
+          }
+          if (msP.status == "follow"){
+            //msP.x = boidFunc(player.x) <- to adjust the value
+            msP.x++;
           }
           xdiff--;
         }
@@ -293,6 +388,14 @@
             //mrP.y = boidFunc(player.y) <- to adjust the value
             mrP.y--;
           }
+          if (mrsP.status == "follow"){
+            //mrsP.y = boidFunc(player.y) <- to adjust the value
+            mrsP.y--;
+          }
+          if (msP.status == "follow"){
+            //msP.y = boidFunc(player.y) <- to adjust the value
+            msP.y--;
+          }
           ydiff--;
         }
         if(ydiff != 0 && tempy < player.y_dest){
@@ -301,12 +404,26 @@
             //mrP.y = boidFunc(player.y) <- to adjust the value
             mrP.y++;
           }
+          if (mrsP.status == "follow"){
+            //mrsP.y = boidFunc(player.y) <- to adjust the value
+            mrsP.y++;
+          }
+          if (msP.status == "follow"){
+            //msP.y = boidFunc(player.y) <- to adjust the value
+            msP.y++;
+          }
           ydiff--;
         }
 
         //check to see if interaction should occur
         if (mrP.status == "idle"){
           mrP.status = interaction(mrP.x, mrP.y, player.x, player.y);
+        }
+        if (mrsP.status == "idle"){
+          mrsP.status = interaction(mrsP.x, mrsP.y, player.x, player.y);
+        }
+        if (msP.status == "idle"){
+          msP.status = interaction(msP.x, msP.y, player.x, player.y);
         }
 
 
@@ -335,8 +452,8 @@
       }
     context.drawImage(img, player.x, player.y, 134, 142);
     context.drawImage(mrPimg, mrP.x, mrP.y, 134, 142);
-
-
+    context.drawImage(mrsPimg, mrsP.x, mrsP.y, 134, 142);
+    context.drawImage(msPimg, msP.x, msP.y, 134, 142);
     }
 
 
