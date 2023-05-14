@@ -76,7 +76,6 @@
         this.animationLoop = [];
         this.loopI = 0;
         this.status = "idle";
-        //interaction with player should cause pumpkin to follow player
         //maybe implement boid-like following attributes?
       }
     }
@@ -84,6 +83,7 @@
     function interaction(px, py, wx, wy){
       if (Math.abs(px - wx) < 15 && Math.abs(py - wy) < 15){
         status = "follow";
+        alert("Follow me!");
       } else {
         status = "idle";
       }
