@@ -32,7 +32,6 @@
       }
     }
 
-    // resizeCanvas();
 
     var context = canvas.getContext('2d');
     var img;
@@ -40,19 +39,12 @@
     var P1bkImg = null;
     var P2bkImg = null;
     var P3bkImg = null;
-    //current position
-    var x = 10;
-    var y = 10;
     //next position
     var x_dest = 0;
     var y_dest = 0;
     var lastAnimationTime = new Date().getTime();
     var timeDelta = 55;  //changes animation speed, higher = slower
     var dataReady = false;
-    var animationLoop = [];
-    var loopI = 0;
-    var direction;
-    var status = "idle";
 
     class witch{
       constructor(){
@@ -107,7 +99,6 @@
       }
 
       if (timeDelta + lastAnimationTime > new Date().getTime()) {
-         //console.log("timedelta return");
          return;
       }
       lastAnimationTime = new Date().getTime();
@@ -125,13 +116,6 @@
       }
 
 
-
-      //                                    START WORK HERE
-      //MAKE PUMPKIN STATUS = IDLE
-      //MAKE STATUS = INTERATION STATE
-
-
-      //IF OBJECT == WITCH
       //leftclick equals move
       $(document).on("mousedown", function () {
         player.status = "moving";
@@ -151,10 +135,8 @@
       });
 
 
-
       var img = new Image();
       img.src = "imgs/Idle (0).png";
-
 
       tempx = player.x;
       tempy = player.y;
@@ -206,12 +188,11 @@
 
 
     //painting witch
-    //for following pumpkins, what I can do is use the same info/calculations from the witch to fill the animation loops
+    //for following pumpkins, what I can do is use the same calculations from the witch to fill the animation loops
     //and take the changing x/y values and alter them for the pumpkins
-    //this is where I can try to "boid up"; ensure that the pumpkins dont all follow the same way
+    //this is where I can try to boid up; ensure that the pumpkins dont all follow the same way
 
       //idle
-      //for idle I need to set loopi to 21, also I may need to move this but it maybe be fine here
       if (player.x_dest == tempx && player.y_dest == tempy) {
         // play idle animation
         if (player.direction == "(East)" | "(NorthEast)" | "(SouthEast)"){
